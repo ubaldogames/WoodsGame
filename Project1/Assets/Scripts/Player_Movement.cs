@@ -50,6 +50,10 @@ public class Player_Movement : MonoBehaviour
         {
             jumping = true;
         }
+        else
+        {
+            jumping = false;
+        }
 
         if (jumping)
         {
