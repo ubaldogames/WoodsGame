@@ -1,5 +1,7 @@
 Player includes:
 ------------------------------------------------
+- Player_Controls(?): controls the player, setting given input
+	+ probably look up input manager for this one, see how several inputs can be used
 - Player_Information: player name and other distinguishable info
 - Player_Movement: player movement using given input
 - Player_Stats: player statuses such as health, stamina, and ailments?
@@ -7,8 +9,18 @@ Player includes:
 - Player_Inventory: player's access to Inventory, which is a separate
 object/class
 
+Camera Includes:
+----------------------------------------------
+- MainCam_Movement: keeps camera "attached" to Player, following them around, allowing user to rotate and move the camera if wanted
+- IDEA: try several methods of camera movement and have people try them out
+	+ idea1: camera stays angled and keeps pointing down, rotating with player
+	+ idea2: camera's height and angle can be adjusted, rotating with player
+	+ idea3: camera stays angled and keeps pointing down, rotation changes with mouse movement or key input
+	+ idea4: camera's height and angle can be adjusted, rotation changes with mouse movement or key input
+- IDEA: don't allow camera to lose sight of player, or clip behind/into walls or objects. Rigidbody? Colliders?
+
 Inventory includes:
------------------------------------------------
+----------------------------------------------
 - Inventory: inventory system that holds a limited amount of items
 -ideas: different types of inventory, flasks, holding packages
 

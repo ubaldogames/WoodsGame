@@ -16,13 +16,13 @@ public class Player_Stats : MonoBehaviour
     void FixedUpdate()
     {
         Ray groundHit = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(groundHit, 2f))
+        if (Physics.Raycast(groundHit, 0.5f))
         {
             grounded = true;
         }
-        else { grounded = false; }
-
-        Debug.Log("Grounded: " + IsGrounded());
+        else {
+            grounded = false;
+        }
     }
 
     public bool IsGrounded()
