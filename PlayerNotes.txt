@@ -1,0 +1,18 @@
+Player includes:
+------------------------------------------------
+- Player_Information: player name and other distinguishable info
+- Player_Movement: player movement using given input
+- Player_Stats: player statuses such as health, stamina, and ailments?
+- Player_Skills: player powers and skills
+- Player_Inventory: player's access to Inventory, which is a separate
+object/class
+
+Inventory includes:
+-----------------------------------------------
+- Inventory: inventory system that holds a limited amount of items
+-ideas: different types of inventory, flasks, holding packages
+
+Check If Grounded:
+----------------------------------------------
+- Grounded: A player is grounded when the feet is connected with the ground
+- a Raycast can be used or a small Collider can be used to check when Grounded
