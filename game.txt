@@ -1,0 +1,35 @@
+wow this is big.
+
+Story time:
+A young girl and a dog go through the woods. Obstacles all over the place. Lovely place. They get through a lot.
+
+Features:
+* AI dog companion who:
+	- follows the girl
+	- can walk under structures shorter than it
+	- knows to avoid obstacles
+	- knows some commands, including its name (come here), fetch, wait, bark, hide, pee/poo(?), explore
+	- is cute
+	- can be equipped with pack, lifejacket, etc.
+	- can be decorated
+* Girl who:
+	- can walk, run, crawl, climb, rest, eat, feed, carry items that include the dog
+	- has name
+	- cares for self and dog
+	- can deal weak attacks
+	- interact with items
+* inventory system with:
+	- noticably growing or shrinking pack
+	- organization with grid system? or list?
+	- various items and tools
+* journal system:
+	- records memorable events, maps, and other notes
+	- recall quests and memos to be done
+* multiple storylines:
+	- a marauder in need
+	- the lonely hermit
+	- the witch of the wood
+	- a boy who wants a simple life
+	- a lonesome, quiet life that sometimes interacts with the above people
+	
+"When you are older and much more fair, you shall meet another fair face who will become infatuated with what you are. He will bring you to his home of many souls and many riches. There is one, though, that I wish to have free. Free this man, and I will help you evermore. But it is only if you can. Only if you wish."
