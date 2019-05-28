@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+    public Player_Stats stats;
+
     private Rigidbody playerRB;
     private float inputH;
     private float inputV;
@@ -17,6 +19,8 @@ public class Player_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        stats = GetComponent<Player_Stats>();
+
         playerRB = GetComponent<Rigidbody>();
         inputH = 0;
         inputV = 0;
@@ -46,7 +50,7 @@ public class Player_Movement : MonoBehaviour
             playerRB.transform.Translate(Vector3.forward * inputV * walkSpeed * Time.deltaTime);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && stats.IsGrounded())
         {
             jumping = true;
         }
@@ -60,10 +64,17 @@ public class Player_Movement : MonoBehaviour
             Jump();
         }
     }
-
+    
     void Jump()
     {
-        playerRB.transform.position = Vector3.Lerp(transform.position, transform.up * jumpSpeed, Time.deltaTime);
-        //if (playerRB.)
+        playerRB.velocity += (Vector3.up * jumpSpeed);
+        //playerRB.transform.Translate(Vector3.up * jumpSpeed, Space.World);
+        //playerRB.transform.position = Vector3.Lerp(transform.position, transform.up * jumpSpeed, Time.deltaTime);
     }
+
+    /*
+    IEnumerator Jump()
+    {
+       
+    }*/
 }

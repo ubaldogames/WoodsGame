@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Script for Main Camera's movement, which the camera will follow the player.
+/// Script for Main Camera's movement, in which the camera will follow the player.
 /// </summary>
 public class MainCam_Movement : MonoBehaviour
 {
     public GameObject player;
-    public Rigidbody playerRB;
+    private Rigidbody playerRB;
 
     private Vector3 newPosition;
     private Quaternion camRotation;
@@ -26,12 +26,15 @@ public class MainCam_Movement : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("Player") != null)
         {
-            Debug.Log("entered Find Gameobject if-statement");
             player = GameObject.FindGameObjectWithTag("Player");
             playerRB = player.GetComponent<Rigidbody>();
 
             transform.position = player.transform.position + (Vector3.forward * camXDistance) + (Vector3.up * camYDistance);
-            //camRotation = Quaternion.LookRotation(player.transform.forward, player.transform.up * -1);
+
+            /**
+             * TODO: may change this later, based on how camera behaves
+             */
+            // Main Camera's rotation set to player's forward and up, then angled to look down on player
             camRotation = Quaternion.AngleAxis(camAngle, Vector3.right) * Quaternion.LookRotation(player.transform.forward, player.transform.up);
             transform.SetPositionAndRotation(transform.position, camRotation);
         }
@@ -45,10 +48,9 @@ public class MainCam_Movement : MonoBehaviour
         // if player movement changes, so does the Main Camera's movement
         if (transform.position != newPosition)
         {
-            Debug.Log("entered transform if statement");
-            //transform.position = newPosition;
             transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * camSpeed);
             transform.SetPositionAndRotation(transform.position, camRotation);
         }
+
     }
 }
