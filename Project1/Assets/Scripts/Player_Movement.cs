@@ -28,7 +28,7 @@ public class Player_Movement : MonoBehaviour
         walkSpeed = 2f;
         runSpeed = 4f;
         
-        deadzone = 0.125f;
+        deadzone = 0.05f;
 
         jumping = false;
     }
@@ -36,8 +36,11 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        { Debug.Log("Space pressed"); }
+
         if (Input.GetKeyDown(KeyCode.Space) && stats.IsGrounded())
-        { jumping = true; }
+        { Debug.Log("jump"); jumping = true; }
         else
         { jumping = false; }
 
@@ -45,20 +48,20 @@ public class Player_Movement : MonoBehaviour
         { Jump(); }
 
         // grab input horizontal and vertical axis values
-        inputH = Input.GetAxis("Horizontal");
-        inputV = Input.GetAxis("Vertical");
+        inputH = Input.GetAxisRaw("Horizontal") * walkSpeed * Time.deltaTime;
+        inputV = Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
+   
+        Debug.Log("HorizontalAxis: " + inputH);
+        Debug.Log("VerticalAxis: " + inputV);
 
-        if (Mathf.Abs(inputH) > deadzone)
-        { playerRB.transform.Translate(Vector3.right * inputH * walkSpeed * Time.deltaTime); }
-
-        if (Mathf.Abs(inputV) > deadzone)
-        { playerRB.transform.Translate(Vector3.forward * inputV * walkSpeed * Time.deltaTime); }
-
+        if ((Mathf.Abs(inputH) + Mathf.Abs(inputV)) != 0)
+            playerRB.transform.Translate((Vector3.right * inputH) + (Vector3.forward * inputV));
         
     }
     
     void Jump()
     {
+        Debug.Log("Jump Method");
         playerRB.velocity += (Vector3.up * jumpSpeed);
     }
 }
