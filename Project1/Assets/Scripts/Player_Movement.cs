@@ -26,7 +26,7 @@ public class Player_Movement : MonoBehaviour
         playerRB = GetComponent<Rigidbody>();
         inputH = 0;
         inputV = 0;
-        jumpSpeed = 5f;
+        jumpSpeed = 3f;
         walkSpeed = 2f;
         runSpeed = 4f;
         rotationSpeed = 45;
@@ -75,6 +75,6 @@ public class Player_Movement : MonoBehaviour
     
     void Jump()
     {
-        playerRB.velocity *= jumpSpeed;
+        //playerRB.velocity += Vector3.up * jumpSpeed;
     }
 }
