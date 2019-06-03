@@ -12,6 +12,8 @@ public class Player_Movement : MonoBehaviour
     private float jumpSpeed;
     private float walkSpeed;
     private float runSpeed;
+    private float rotationSpeed;
+
     private float deadzone;
 
     private bool jumping;
@@ -27,8 +29,9 @@ public class Player_Movement : MonoBehaviour
         jumpSpeed = 5f;
         walkSpeed = 2f;
         runSpeed = 4f;
-        
-        deadzone = 0.125f;
+        rotationSpeed = 45;
+
+        deadzone = 0.05f;
 
         jumping = false;
     }
@@ -36,6 +39,11 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        /**
+         *  TODO: player forward ray 
+         */
+        Debug.DrawRay(transform.position, transform.forward, Color.blue);
+
         if (Input.GetKeyDown(KeyCode.Space) && stats.IsGrounded())
         { jumping = true; }
         else
@@ -44,21 +52,29 @@ public class Player_Movement : MonoBehaviour
         if (jumping)
         { Jump(); }
 
-        // grab input horizontal and vertical axis values
-        inputH = Input.GetAxis("Horizontal");
-        inputV = Input.GetAxis("Vertical");
+        // grab input horizontal and vertical axis values, then multiply them by walkSpeed
+        inputH = Input.GetAxisRaw("Horizontal") * walkSpeed * Time.deltaTime;
+        inputV = Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
 
-        if (Mathf.Abs(inputH) > deadzone)
-        { playerRB.transform.Translate(Vector3.right * inputH * walkSpeed * Time.deltaTime); }
+        // if the value of the axises are greater than 0, then changed position
+        if ((Mathf.Abs(inputH) + Mathf.Abs(inputV)) != 0)
+        {
+            if (Mathf.Abs(inputH) > 0)
+            {
+                Debug.Log("prev rotation: " + playerRB.rotation);
+                Debug.Log("transform.up: " + transform.up);
+                playerRB.rotation = playerRB.rotation * Quaternion.AngleAxis(rotationSpeed * inputH, transform.up);
+                Debug.Log("new rotation: " + playerRB.rotation);
+                
+            }
 
-        if (Mathf.Abs(inputV) > deadzone)
-        { playerRB.transform.Translate(Vector3.forward * inputV * walkSpeed * Time.deltaTime); }
-
+            playerRB.transform.Translate((Vector3.right * inputH) + (Vector3.forward * inputV));
+        }
         
     }
     
     void Jump()
     {
-        playerRB.velocity += (Vector3.up * jumpSpeed);
+        playerRB.velocity *= jumpSpeed;
     }
 }

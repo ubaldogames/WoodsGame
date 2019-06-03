@@ -11,14 +11,16 @@ public class Player_Stats : MonoBehaviour
     void Start()
     {
         grounded = false;
-        ground_RayLength = 0.25f;
+        ground_RayLength = 0.75f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         Ray groundHit = new Ray(transform.position, Vector3.down);
-
+        Debug.DrawRay(transform.position, -transform.up, Color.green);
+        
+        //if (Physics.Raycast(groundHit, ground_RayLength))
         if (Physics.Raycast(groundHit, ground_RayLength))
         { grounded = true; }
         else
@@ -29,4 +31,17 @@ public class Player_Stats : MonoBehaviour
     {
         return grounded;
     }
+
+    /*
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Ground")
+        { grounded = true; }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.tag == "Ground")
+        { grounded = false; }
+    }*/
 }
