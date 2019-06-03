@@ -12,6 +12,8 @@ public class Player_Movement : MonoBehaviour
     private float jumpSpeed;
     private float walkSpeed;
     private float runSpeed;
+    private float rotationSpeed;
+
     private float deadzone;
 
     private bool jumping;
@@ -27,7 +29,8 @@ public class Player_Movement : MonoBehaviour
         jumpSpeed = 5f;
         walkSpeed = 2f;
         runSpeed = 4f;
-        
+        rotationSpeed = 45;
+
         deadzone = 0.05f;
 
         jumping = false;
@@ -36,32 +39,42 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        { Debug.Log("Space pressed"); }
+        /**
+         *  TODO: player forward ray 
+         */
+        Debug.DrawRay(transform.position, transform.forward, Color.blue);
 
         if (Input.GetKeyDown(KeyCode.Space) && stats.IsGrounded())
-        { Debug.Log("jump"); jumping = true; }
+        { jumping = true; }
         else
         { jumping = false; }
 
         if (jumping)
         { Jump(); }
 
-        // grab input horizontal and vertical axis values
+        // grab input horizontal and vertical axis values, then multiply them by walkSpeed
         inputH = Input.GetAxisRaw("Horizontal") * walkSpeed * Time.deltaTime;
         inputV = Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
-   
-        Debug.Log("HorizontalAxis: " + inputH);
-        Debug.Log("VerticalAxis: " + inputV);
 
+        // if the value of the axises are greater than 0, then changed position
         if ((Mathf.Abs(inputH) + Mathf.Abs(inputV)) != 0)
+        {
+            if (Mathf.Abs(inputH) > 0)
+            {
+                Debug.Log("prev rotation: " + playerRB.rotation);
+                Debug.Log("transform.up: " + transform.up);
+                playerRB.rotation = playerRB.rotation * Quaternion.AngleAxis(rotationSpeed * inputH, transform.up);
+                Debug.Log("new rotation: " + playerRB.rotation);
+                
+            }
+
             playerRB.transform.Translate((Vector3.right * inputH) + (Vector3.forward * inputV));
+        }
         
     }
     
     void Jump()
     {
-        Debug.Log("Jump Method");
-        playerRB.velocity += (Vector3.up * jumpSpeed);
+        playerRB.velocity *= jumpSpeed;
     }
 }
