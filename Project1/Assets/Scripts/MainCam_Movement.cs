@@ -24,7 +24,7 @@ public class MainCam_Movement : MonoBehaviour
     void Start()
     {
         camXDistance = -5;
-        camYDistance = 3;
+        camYDistance = 2;
         camAngle = 30;
         camSpeed = 5f;
         camRotateSpeed = 0.5f;
@@ -49,6 +49,9 @@ public class MainCam_Movement : MonoBehaviour
     
     void FixedUpdate()
     {
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
+
         /**
          * TODO: change camera based on mouse movement
          */
@@ -56,12 +59,16 @@ public class MainCam_Movement : MonoBehaviour
         camRotation = Quaternion.LookRotation(player.transform.forward, Vector3.up);
         newPosition = player.transform.position + (player.transform.forward * camXDistance) + (player.transform.up * camYDistance);
 
+        if (Mathf.Abs(mouseX) + Mathf.Abs(mouseY) != 0)
+        {
+            newPosition = player.transform.position + (player.transform.forward * (camXDistance + mouseX)) + (player.transform.up * (camYDistance + mouseY)); 
+        }
+
         // if player movement changes, so does the Main Camera's movement
         if (transform.position != newPosition)
         {
             transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * camSpeed);
             transform.SetPositionAndRotation(transform.position, camRotation);
         }
-
     }
 }

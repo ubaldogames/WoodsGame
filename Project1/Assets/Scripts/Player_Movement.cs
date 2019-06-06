@@ -16,6 +16,7 @@ public class Player_Movement : MonoBehaviour
 
     private float deadzone;
 
+    private bool changeSpeed;
     private bool jumping;
 
     // Start is called before the first frame update
@@ -26,13 +27,14 @@ public class Player_Movement : MonoBehaviour
         playerRB = GetComponent<Rigidbody>();
         inputH = 0;
         inputV = 0;
-        jumpSpeed = 3f;
+        jumpSpeed = 6f;
         walkSpeed = 2f;
         runSpeed = 4f;
         rotationSpeed = 45;
 
         deadzone = 0.05f;
 
+        changeSpeed = false;
         jumping = false;
     }
 
@@ -44,6 +46,10 @@ public class Player_Movement : MonoBehaviour
          */
         Debug.DrawRay(transform.position, transform.forward, Color.blue);
 
+        // if Ctrl is pressed
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+        { changeSpeed = !changeSpeed; }
+
         if (Input.GetKeyDown(KeyCode.Space) && stats.IsGrounded())
         { jumping = true; }
         else
@@ -52,29 +58,42 @@ public class Player_Movement : MonoBehaviour
         if (jumping)
         { Jump(); }
 
-        // grab input horizontal and vertical axis values, then multiply them by walkSpeed
-        inputH = Input.GetAxisRaw("Horizontal") * walkSpeed * Time.deltaTime;
-        inputV = Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
+        if (changeSpeed)
+        {
+            // grab input horizontal and vertical axis values, then multiply them by walkSpeed
+            inputH = Input.GetAxisRaw("Horizontal") * runSpeed * Time.deltaTime;
+            inputV = Input.GetAxisRaw("Vertical") * runSpeed * Time.deltaTime;
+        }
+        else
+        {
+            // grab input horizontal and vertical axis values, then multiply them by walkSpeed
+            inputH = Input.GetAxisRaw("Horizontal") * walkSpeed * Time.deltaTime;
+            inputV = Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
+        }
 
         // if the value of the axises are greater than 0, then changed position
         if ((Mathf.Abs(inputH) + Mathf.Abs(inputV)) != 0)
         {
+            // rotate player
             if (Mathf.Abs(inputH) > 0)
             {
-                Debug.Log("prev rotation: " + playerRB.rotation);
-                Debug.Log("transform.up: " + transform.up);
-                playerRB.rotation = playerRB.rotation * Quaternion.AngleAxis(rotationSpeed * inputH, transform.up);
-                Debug.Log("new rotation: " + playerRB.rotation);
-                
+                playerRB.rotation = Quaternion.AngleAxis(rotationSpeed * inputH, transform.up) * playerRB.rotation;
             }
 
-            playerRB.transform.Translate((Vector3.right * inputH) + (Vector3.forward * inputV));
+            // move backwards
+            if (Mathf.Abs(inputV) < 0)
+            {
+
+            }
+            else // move at normal speed
+            { playerRB.transform.Translate((Vector3.right * inputH) + (Vector3.forward * inputV)); }
         }
         
     }
     
     void Jump()
     {
-        //playerRB.velocity += Vector3.up * jumpSpeed;
+        playerRB.velocity += Vector3.up * jumpSpeed;
+        Debug.Log("velocity jump: " + playerRB.velocity);
     }
 }
